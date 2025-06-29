@@ -1,5 +1,6 @@
 package com.github.danilbalistero.receitasapp.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -7,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.github.danilbalistero.receitasapp.data.Receita
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,18 +20,6 @@ fun DetalheReceitaScreen(
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Detalhes da Receita") })
-        },
-        bottomBar = {
-            BottomAppBar {
-                Button(
-                    onClick = { onEditarClick(receita) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Text("Editar Receita")
-                }
-            }
         }
     ) { padding ->
         Column(
@@ -39,12 +29,31 @@ fun DetalheReceitaScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+        ){
+            receita.imagemUri?.let { uri ->
+                Image(
+                    painter = rememberAsyncImagePainter(uri),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(220.dp)
+                )
+            }
+
             Text(text = receita.titulo, style = MaterialTheme.typography.headlineSmall)
             Text(text = "Ingredientes:", style = MaterialTheme.typography.titleMedium)
             Text(text = receita.ingredientes)
             Text(text = "Modo de Preparo:", style = MaterialTheme.typography.titleMedium)
             Text(text = receita.modoPreparo)
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { onEditarClick(receita) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Editar Receita")
+            }
         }
     }
 }

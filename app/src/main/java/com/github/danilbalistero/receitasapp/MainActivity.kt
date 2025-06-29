@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                             onNovaReceitaClick = {
                                 navController.navigate("add")
                             },
-                            onEditarReceitaClick = { receita ->
+                            onDetalheClick = { receita ->
                                 navController.navigate("detalhe/${receita.id}")
                             }
                         )

@@ -1,22 +1,18 @@
 package com.github.danilbalistero.receitasapp.ui.theme
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.github.danilbalistero.receitasapp.data.Receita
 import com.github.danilbalistero.receitasapp.viewmodel.ReceitaViewModel
 
@@ -26,7 +22,7 @@ import com.github.danilbalistero.receitasapp.viewmodel.ReceitaViewModel
 fun HomeScreen(
     viewModel: ReceitaViewModel,
     onNovaReceitaClick: () -> Unit,
-    onEditarReceitaClick: (Receita) -> Unit
+    onDetalheClick: (Receita) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -61,18 +57,26 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
-                            .clickable { onEditarReceitaClick(receita) }
+                            .clickable { onDetalheClick(receita) }
                     ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = receita.titulo, style = MaterialTheme.typography.titleLarge)
-                            Text(text = receita.ingredientes, maxLines = 1)
+                        Row(modifier = Modifier.padding(16.dp)) {
+                            receita.imagemUri?.let { uri ->
+                                Image(
+                                    painter = rememberAsyncImagePainter(uri),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(80.dp)
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
+                            }
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(text = receita.titulo, style = MaterialTheme.typography.titleLarge)
+                            }
                         }
                     }
                 }
-
             }
         }
     }
 }
-
-

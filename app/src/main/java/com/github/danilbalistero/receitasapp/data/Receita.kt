@@ -8,5 +8,6 @@ data class Receita(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val titulo: String,
     val ingredientes: String,
-    val modoPreparo: String
+    val modoPreparo: String,
+    val imagemUri: String? = null
 )
