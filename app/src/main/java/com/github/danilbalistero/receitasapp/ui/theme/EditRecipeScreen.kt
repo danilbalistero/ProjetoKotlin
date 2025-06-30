@@ -7,11 +7,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.github.danilbalistero.receitasapp.data.Receita
 import com.github.danilbalistero.receitasapp.viewmodel.ReceitaViewModel
@@ -21,6 +24,7 @@ import com.github.danilbalistero.receitasapp.viewmodel.ReceitaViewModel
 fun EditRecipeScreen(
     receita: Receita,
     viewModel: ReceitaViewModel,
+    navController: NavController,
     onRecipeUpdated: () -> Unit,
     onRecipeDeleted: () -> Unit
 ) {
@@ -30,15 +34,23 @@ fun EditRecipeScreen(
     var imagemUri by remember { mutableStateOf<Uri?>(receita.imagemUri?.let { Uri.parse(it) }) }
 
     val context = LocalContext.current
-    val imagePickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { imagemUri = it }
-    }
+    val imagePickerLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { imagemUri = it }
+        }
 
     var tempoPreparo by remember { mutableStateOf(receita.tempoPreparo) }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Editar Receita") })
+            TopAppBar(
+                title = { Text("Editar Receita") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
         }
     ) { padding ->
         Column(

@@ -4,10 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.github.danilbalistero.receitasapp.data.Receita
 
@@ -15,11 +18,19 @@ import com.github.danilbalistero.receitasapp.data.Receita
 @Composable
 fun DetalheReceitaScreen(
     receita: Receita,
+    navController: NavController,
     onEditarClick: (Receita) -> Unit
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Detalhes da Receita") })
+            TopAppBar(
+                title = { Text("Detalhes da Receita") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
         }
     ) { padding ->
         Column(
@@ -29,7 +40,7 @@ fun DetalheReceitaScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
+        ) {
             receita.imagemUri?.let { uri ->
                 Image(
                     painter = rememberAsyncImagePainter(uri),

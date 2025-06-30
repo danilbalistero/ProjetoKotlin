@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
                     composable("add") {
                         AddRecipeScreen(
                             viewModel = viewModel,
+                            navController = navController,
                             onRecipeSaved = {
                                 navController.popBackStack()
                             }
@@ -62,6 +63,7 @@ class MainActivity : ComponentActivity() {
                         if (receita != null) {
                             DetalheReceitaScreen(
                                 receita = receita,
+                                navController = navController,
                                 onEditarClick = {
                                     navController.navigate("editar/${receita.id}")
                                 }
@@ -80,6 +82,7 @@ class MainActivity : ComponentActivity() {
                             EditRecipeScreen(
                                 receita = receita,
                                 viewModel = viewModel,
+                                navController = navController,
                                 onRecipeUpdated = {
                                     navController.popBackStack("home", inclusive = false)
                                 },

@@ -6,11 +6,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.github.danilbalistero.receitasapp.data.Receita
 import com.github.danilbalistero.receitasapp.viewmodel.ReceitaViewModel
 
@@ -18,6 +21,7 @@ import com.github.danilbalistero.receitasapp.viewmodel.ReceitaViewModel
 @Composable
 fun AddRecipeScreen(
     viewModel: ReceitaViewModel,
+    navController: NavController,
     onRecipeSaved: () -> Unit
 ) {
     var titulo by remember { mutableStateOf("") }
@@ -36,7 +40,14 @@ fun AddRecipeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Nova Receita") })
+            TopAppBar(
+                title = { Text("Nova Receita") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
         }
     ) { padding ->
         Column(
