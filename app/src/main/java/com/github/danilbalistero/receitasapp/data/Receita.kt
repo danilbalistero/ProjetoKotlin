@@ -9,5 +9,6 @@ data class Receita(
     val titulo: String,
     val ingredientes: String,
     val modoPreparo: String,
-    val imagemUri: String? = null
+    val imagemUri: String? = null,
+    val tempoPreparo: String = ""
 )

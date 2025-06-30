@@ -32,6 +32,8 @@ fun AddRecipeScreen(
         imagemUri = uri
     }
 
+    var tempoPreparo by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Nova Receita") })
@@ -60,6 +62,13 @@ fun AddRecipeScreen(
             )
 
             OutlinedTextField(
+                value = tempoPreparo,
+                onValueChange = { tempoPreparo = it },
+                label = { Text("Tempo de Preparo (ex: 30min)") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
                 value = modoPreparo,
                 onValueChange = { modoPreparo = it },
                 label = { Text("Modo de Preparo") },
@@ -83,7 +92,8 @@ fun AddRecipeScreen(
                             titulo = titulo,
                             ingredientes = ingredientes,
                             modoPreparo = modoPreparo,
-                            imagemUri = imagemUri?.toString()
+                            imagemUri = imagemUri?.toString(),
+                            tempoPreparo = tempoPreparo
                         )
                         viewModel.adicionarReceita(novaReceita)
                         onRecipeSaved()

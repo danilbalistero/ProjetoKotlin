@@ -60,9 +60,8 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
                             .clickable { onDetalheClick(receita) },
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        shape = MaterialTheme.shapes.large,
+                        elevation = CardDefaults.cardElevation(4.dp)
                     ) {
                         Row(modifier = Modifier.padding(16.dp)) {
                             receita.imagemUri?.let { uri ->
@@ -71,7 +70,6 @@ fun HomeScreen(
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(80.dp)
-                                        .clip(RoundedCornerShape(12.dp))
                                 )
                                 Spacer(modifier = Modifier.width(12.dp))
                             }
@@ -81,12 +79,12 @@ fun HomeScreen(
                                     text = receita.titulo,
                                     style = MaterialTheme.typography.titleMedium
                                 )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(
-                                    text = receita.ingredientes,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    maxLines = 1
-                                )
+                                receita.tempoPreparo?.let { tempo ->
+                                    Text(
+                                        text = "Tempo: $tempo ",
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                }
                             }
                         }
                     }
